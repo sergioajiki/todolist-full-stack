@@ -22,10 +22,6 @@ export default {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      role: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
       activationCode: {
         type: DataTypes.STRING,
         field: 'activation_code',
