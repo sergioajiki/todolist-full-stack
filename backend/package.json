@@ -9,7 +9,6 @@
     "nodemon": "nodemon",
     "lint": "eslint . --ext .ts",
     "db:reset": "npx tsc && npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all"
-
   },
   "keywords": [],
   "author": "sergioajiki",
@@ -24,6 +23,8 @@
   "dependencies": {
     "@tsconfig/node16": "1.0",
     "express": "^4.18.2",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.6.0",
     "sequelize": "^6.32.1"
   }
 }
