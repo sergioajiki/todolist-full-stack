@@ -27,7 +27,8 @@ services:
     environment:
       DB_HOST: taskdb 
       DB_PORT: 3306
-      DB_NAME: todoList-db
+      DB_NAME: task_list_app
+      DB_PASSWORD: root
       HOST: 'http://localhost'  
     healthcheck:
       test: ["CMD", "lsof", "-t", "-i:3001"] # Caso utilize outra porta interna para o back, altere ela aqui também

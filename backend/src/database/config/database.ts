@@ -9,4 +9,4 @@ const sequelizeConnectionsConfig: Options = {
     dialect: 'mysql',
   }
   
-  export = sequelizeConnectionsConfig;
+export = sequelizeConnectionsConfig;

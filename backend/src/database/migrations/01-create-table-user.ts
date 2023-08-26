@@ -40,5 +40,5 @@ export default {
   },
   async down(queryInterface: QueryInterface) {
     return queryInterface.dropTable('users');
-  } 
+  }   
 }
