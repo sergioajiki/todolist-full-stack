@@ -2,10 +2,13 @@ import { IUser } from '../interfaces/User/IUser';
 import { IUserModel } from '../interfaces/User/IUserModel';
 import { IUserPayload } from '../interfaces/User/IUserPayload';
 import { ServiceResponse, ServiceMessage } from '../interfaces/ServiceResponse';
+import { ILogin } from '../interfaces/ILogin';
+import { Token } from '../interfaces/Token';
 import UserModel from '../model/user.model';
 import BcryptUtils from '../utils/bcryptUtils';
 import buildActivationUrl from '../utils/activationUrlBuilder';
 import emailBullService from '../utils/emailBullService';
+import JwtUtils from '../utils/jwUtils';
 
 
 export default class UserService {
@@ -57,5 +60,24 @@ export default class UserService {
     }
     await this.userModel.activateUser(id)
     return { status: 'CREATE', data: { message: 'Your account has been activated' } }
+  }
+
+  public async login(loginInfo: ILogin): Promise<ServiceResponse<Token>> {
+    const { email, password } = loginInfo
+    const userInfo = await this.userModel.getUserByEmail(email);
+    if (!userInfo){
+      return { status: 'UNAUTHORIZED', data: { message: 'Invalid email or password' } };
+    }
+    const isValidPassword = this.bcryptUtils.checkPassword(password, userInfo.password);
+    if (!isValidPassword) {
+      return { status: 'UNAUTHORIZED', data: { message: 'Invalid email or password' } };
+    }
+    if (userInfo.status === 0) {
+      return { status: 'UNAUTHORIZED', data: { message: 'Verifique o email para ativar a conta' } };
+    }
+    
+    const payload = { id: userInfo.id, email: userInfo.email };
+    const token = JwtUtils.sign(payload)
+    return { status: 'SUCCESSFUL', data: { token } };
   }
 }
