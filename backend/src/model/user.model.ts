@@ -14,6 +14,13 @@ export default class UserModel implements IUserModel {
     return !user ? null : user;
   }
 
+  async getUserById(id: number): Promise<IUser | null> {
+    const user = await this.model.findByPk(id, {
+      attributes: {exclude: ['password']}
+    })
+    return !user ? null : user;
+  }
+
   async createUser(userPayload: IUser): Promise<IUser> {
     const newUser = await this.model.create(userPayload);
     return newUser;
