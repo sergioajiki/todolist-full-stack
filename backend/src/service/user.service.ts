@@ -7,8 +7,6 @@ import UserModel from '../model/user.model';
 export default class UserService {
   constructor(
     private userModel: IUserModel = new UserModel()
-  )
-
- 
+  ) {}
   
 }
