@@ -17,9 +17,12 @@ services:
 
   backend:
     container_name: app-todo-backend
-    build: ./backend
+    build: ./
     tty: true
-    stdin_open: true  
+    stdin_open: true
+    restart: always
+    working_dir: /app-backend
+    # command: nodemon  
     volumes:
       - ./backend/src:/app-backend/src
     ports:
