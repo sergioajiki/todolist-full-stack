@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-
+import Email from './emailRegex';
 
 export default class ValidationUser {
   static validateCreateUserFields(req: Request, res: Response, next: NextFunction)
@@ -20,4 +20,11 @@ export default class ValidationUser {
     next();
   }
 
+  static ValidateEmailFormat(req: Request, res: Response, next: NextFunction): Response | void {
+    const { email } = req.body;
+    if (!Email.isValidEmail(email)) {
+      return res.status(400).json({ message: 'Invalid email format' });
+    }
+    next();
+  }
 }
