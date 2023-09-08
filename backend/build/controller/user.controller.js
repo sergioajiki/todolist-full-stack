@@ -39,27 +39,28 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.App = void 0;
-var express_1 = __importDefault(require("express"));
-var routers_1 = __importDefault(require("./routers"));
-var App = /** @class */ (function () {
-    function App() {
-        var _this = this;
-        this.app = (0, express_1.default)();
-        this.app.use(express_1.default.json());
-        this.app.get('/', function (_req, res) { return __awaiter(_this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                return [2 /*return*/, res.status(200).json({ message: 'Yeeeiiiii' })];
-            });
-        }); });
-        this.routers();
+var mapStatusHTTP_1 = __importDefault(require("../utils/mapStatusHTTP"));
+var user_service_1 = __importDefault(require("../service/user.service"));
+var UserController = /** @class */ (function () {
+    function UserController(userService) {
+        if (userService === void 0) { userService = new user_service_1.default(); }
+        this.userService = userService;
     }
-    App.prototype.routers = function () {
-        this.app.use(routers_1.default);
+    UserController.prototype.createUser = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var payload, response;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        payload = req.body;
+                        return [4 /*yield*/, this.userService.createUser(payload)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, res.status((0, mapStatusHTTP_1.default)(response.status)).json(response.data)];
+                }
+            });
+        });
     };
-    App.prototype.start = function (PORT) {
-        this.app.listen(PORT, function () { return console.log("backend de todoList up and running on PORT " + PORT); });
-    };
-    return App;
+    return UserController;
 }());
-exports.App = App;
+exports.default = UserController;

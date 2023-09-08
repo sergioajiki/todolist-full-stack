@@ -39,27 +39,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.App = void 0;
-var express_1 = __importDefault(require("express"));
-var routers_1 = __importDefault(require("./routers"));
-var App = /** @class */ (function () {
-    function App() {
-        var _this = this;
-        this.app = (0, express_1.default)();
-        this.app.use(express_1.default.json());
-        this.app.get('/', function (_req, res) { return __awaiter(_this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                return [2 /*return*/, res.status(200).json({ message: 'Yeeeiiiii' })];
-            });
-        }); });
-        this.routers();
-    }
-    App.prototype.routers = function () {
-        this.app.use(routers_1.default);
-    };
-    App.prototype.start = function (PORT) {
-        this.app.listen(PORT, function () { return console.log("backend de todoList up and running on PORT " + PORT); });
-    };
-    return App;
-}());
-exports.App = App;
+var bull_1 = __importDefault(require("bull"));
+var nodemailerUtils_1 = __importDefault(require("./nodemailerUtils"));
+var emailQueue = new bull_1.default('emailNotifications', {
+    redis: {
+        host: 'redis',
+        port: 6379,
+    },
+});
+emailQueue.process(function (job) { return __awaiter(void 0, void 0, void 0, function () {
+    var data;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                data = job.data;
+                return [4 /*yield*/, nodemailerUtils_1.default.sendEmail(data)];
+            case 1:
+                _a.sent();
+                return [2 /*return*/];
+        }
+    });
+}); });
+exports.default = {
+    emailQueue: emailQueue,
+};

@@ -39,27 +39,39 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.App = void 0;
-var express_1 = __importDefault(require("express"));
-var routers_1 = __importDefault(require("./routers"));
-var App = /** @class */ (function () {
-    function App() {
-        var _this = this;
-        this.app = (0, express_1.default)();
-        this.app.use(express_1.default.json());
-        this.app.get('/', function (_req, res) { return __awaiter(_this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                return [2 /*return*/, res.status(200).json({ message: 'Yeeeiiiii' })];
-            });
-        }); });
-        this.routers();
-    }
-    App.prototype.routers = function () {
-        this.app.use(routers_1.default);
-    };
-    App.prototype.start = function (PORT) {
-        this.app.listen(PORT, function () { return console.log("backend de todoList up and running on PORT " + PORT); });
-    };
-    return App;
-}());
-exports.App = App;
+var nodemailer_1 = __importDefault(require("nodemailer"));
+require("dotenv/config");
+var transport = nodemailer_1.default.createTransport({
+    host: 'sandbox.smtp.mailtrap.io',
+    port: 2525,
+    auth: {
+        user: process.env.USER_MAILTRAP,
+        pass: process.env.PASS_MAILTRAP
+    },
+});
+var ADMINEMAIL = 'adminEmail@teste.com';
+var sendEmail = function (_a) {
+    var email = _a.email, username = _a.username, activationUrl = _a.activationUrl;
+    return __awaiter(void 0, void 0, void 0, function () {
+        var emailInfo, emailSent;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    emailInfo = {
+                        from: ADMINEMAIL,
+                        to: email,
+                        subject: 'email de teste',
+                        html: "<h1>Bem-vindo " + username + ", clique no link para ativar o cadastro</h1><br>\n      <h4>\n      <a href=\"" + activationUrl + "\" title=\"link para ativa\u00E7\u00E3o\">\n      <h4>Clique aqui para ativa\u00E7\u00E3o da conta</h4>\n      </a>\n      </h4>"
+                    };
+                    return [4 /*yield*/, transport.sendMail(emailInfo)];
+                case 1:
+                    emailSent = _b.sent();
+                    console.log('email foi enviado para', emailSent.accepted[0]);
+                    return [2 /*return*/];
+            }
+        });
+    });
+};
+exports.default = {
+    sendEmail: sendEmail,
+};

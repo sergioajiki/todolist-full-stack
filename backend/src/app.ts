@@ -19,10 +19,8 @@ export class App {
     this.app.use(router);
   }
 
-
   public start(PORT: string | number): void {
     this.app.listen(PORT,
       () => console.log(`backend de todoList up and running on PORT ${PORT}`));
   }
-
 }
