@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import router from './routers';
 
 export class App {
   public app: express.Express;
@@ -11,7 +12,13 @@ export class App {
       async (_req: Request, res: Response): Promise<Response> => res.status(200).json(
         { message: 'Yeeeiiiii'} ),
     );
+    this.routers();
   }
+
+  private routers(): void {
+    this.app.use(router);
+  }
+
 
   public start(PORT: string | number): void {
     this.app.listen(PORT,

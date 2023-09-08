@@ -9,3 +9,5 @@ router.post(
   '/login/register',
   (req: Request, res: Response) => userController.createUser(req,res)
 )
+
+export default router;
