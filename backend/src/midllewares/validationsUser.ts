@@ -11,4 +11,13 @@ export default class ValidationUser {
 		next();
 	}
 
+  static ValidatePasswordFormat(req: Request, res: Response, next: NextFunction)
+	: Response | void {
+    const { password } = req.body;
+    if (password.length < 6 || password.length > 12) {
+      return res.status(400).json({ message: 'Password must be 6 to 12 characters' });
+    }
+    next();
+  }
+
 }
