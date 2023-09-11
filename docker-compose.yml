@@ -17,9 +17,12 @@ services:
 
   backend:
     container_name: app-todo-backend
-    build: ./backend
+    build: ./
     tty: true
-    stdin_open: true  
+    stdin_open: true
+    restart: always
+    working_dir: /app-backend
+    # command: nodemon  
     volumes:
       - ./backend/src:/app-backend/src
     ports:
@@ -27,7 +30,8 @@ services:
     environment:
       DB_HOST: taskdb 
       DB_PORT: 3306
-      DB_NAME: todoList-db
+      DB_NAME: task_list_app
+      DB_PASSWORD: root
       HOST: 'http://localhost'  
     healthcheck:
       test: ["CMD", "lsof", "-t", "-i:3001"] # Caso utilize outra porta interna para o back, altere ela aqui também
@@ -48,4 +52,9 @@ services:
       interval: 10s
       timeout: 2s
       retries: 10
-      start_period: 30s    
+      start_period: 30s   
+
+# Serviço Redis
+  redis:
+    image: redis/redis-stack-server:latest
+    container_name: redis_container           
