@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var app_1 = require("./app");
+const app_1 = require("./app");
 require("dotenv/config");
-var PORT = process.env.APP_PORT || 3001;
+const PORT = process.env.APP_PORT || 3001;
 new app_1.App().start(PORT);

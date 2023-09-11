@@ -8,13 +8,9 @@ export default class UserModel implements IUserModel {
   private model = SequelizeUsers;
 
   async getUserByEmail(email: string): Promise<IUser | null> {
-    console.log('get by email', email);
-
     const user = await this.model.findOne({
       where: { email }
     })
-    console.log(user);
-
     return !user ? null : user;
   }
 
@@ -26,10 +22,7 @@ export default class UserModel implements IUserModel {
   }
 
   async createUser(userPayload: IUser): Promise<IUser> {
-    console.log('aqui no create');
-
     const newUser = await this.model.create(userPayload);
-
     return newUser;
   }
 

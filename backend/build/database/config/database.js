@@ -1,5 +1,5 @@
 "use strict";
-var sequelizeConnectionsConfig = {
+const sequelizeConnectionsConfig = {
     database: process.env.DB_NAME || 'task_list_app',
     username: process.env.DB_USER || 'root',
     password: process.env.DB_PASSWORD || 'root',

@@ -18,14 +18,8 @@ export default class UserService {
   ) {}
 
   public async createUser(userPayload: IUserPayload): Promise<ServiceResponse<string>> {
-    // console.log('aqui antes do get');
     const isEmail = await this.userModel.getUserByEmail(userPayload.email);
-    console.log('depois do get');
-    
     if (isEmail) return { status: 'CONFLICT', data: { message: 'Email is already registered' } }
-    console.log('is email', isEmail);
-    
-    
     const payload = {
       username: userPayload.username,
       email: userPayload.email,
@@ -34,15 +28,14 @@ export default class UserService {
       status: 0,
     }
 
-      console.log('payload', payload);
-      
     const newUser = await this.userModel.createUser(payload);
-    console.log('aqui o newUser', newUser);
-    
     const { id, username, activationCode, email } = newUser;
     const activationUrl = buildActivationUrl( { id, activationCode } );
-    await emailBullService.emailQueue.add({ email, username, activationUrl})
-
+    console.log(activationUrl);
+    
+    const responseEmail = await emailBullService.emailQueue.add({ email, username, activationUrl});
+    console.log('responsee', responseEmail);
+    
     return {
       status: 'CREATE',
       data: { message: 'Usuário foi cadastrado! Verifique seu email para ativar sua conta' }
