@@ -3,8 +3,9 @@ import { IUserModel } from '../interfaces/User/IUserModel';
 import { IUserPayload } from '../interfaces/User/IUserPayload';
 import SequelizeUsers from '../database/model/sequelizeUsers';
 
+
 export default class UserModel implements IUserModel {
-  private model = SequelizeUsers
+  private model = SequelizeUsers;
 
   async getUserByEmail(email: string): Promise<IUser | null> {
     console.log('get by email', email);

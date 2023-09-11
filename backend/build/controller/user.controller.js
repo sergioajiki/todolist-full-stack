@@ -61,6 +61,21 @@ var UserController = /** @class */ (function () {
             });
         });
     };
+    UserController.prototype.getUserById = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var id, userById;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        id = req.params.id;
+                        return [4 /*yield*/, this.userService.getUserById(+id)];
+                    case 1:
+                        userById = _a.sent();
+                        return [2 /*return*/, res.status((0, mapStatusHTTP_1.default)(userById.status)).json(userById.data)];
+                }
+            });
+        });
+    };
     return UserController;
 }());
 exports.default = UserController;

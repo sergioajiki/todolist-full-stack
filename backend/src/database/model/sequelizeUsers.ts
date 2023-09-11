@@ -3,7 +3,7 @@ import {
   Model, 
   InferAttributes, 
   InferCreationAttributes, 
-  CreationOptional
+  CreationOptional,
 } from 'sequelize';
 import taskdb from './index';
 
