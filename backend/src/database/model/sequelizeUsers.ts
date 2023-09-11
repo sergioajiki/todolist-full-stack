@@ -1,8 +1,14 @@
-import { DataTypes, Model, InferAttributes, InferCreationAttributes, CreationOptional } from 'sequelize';
+import { 
+  DataTypes,
+  Model, 
+  InferAttributes, 
+  InferCreationAttributes, 
+  CreationOptional
+} from 'sequelize';
 import taskdb from './index';
 
 class SequelizeUsers extends Model<InferAttributes<SequelizeUsers>,
-  InferCreationAttributes<SequelizeUsers>> {
+InferCreationAttributes<SequelizeUsers>> {
   declare id: CreationOptional<number>;
   declare username: string;
   declare email: string;

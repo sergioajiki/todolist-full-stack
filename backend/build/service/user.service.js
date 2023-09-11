@@ -59,8 +59,10 @@ var UserService = /** @class */ (function () {
                     case 0: return [4 /*yield*/, this.userModel.getUserByEmail(userPayload.email)];
                     case 1:
                         isEmail = _a.sent();
+                        console.log('depois do get');
                         if (isEmail)
                             return [2 /*return*/, { status: 'CONFLICT', data: { message: 'Email is already registered' } }];
+                        console.log('is email', isEmail);
                         payload = {
                             username: userPayload.username,
                             email: userPayload.email,
@@ -68,9 +70,11 @@ var UserService = /** @class */ (function () {
                             activationCode: 'colocar activation code',
                             status: 0,
                         };
+                        console.log('payload', payload);
                         return [4 /*yield*/, this.userModel.createUser(payload)];
                     case 2:
                         newUser = _a.sent();
+                        console.log('aqui o newUser', newUser);
                         id = newUser.id, username = newUser.username, activationCode = newUser.activationCode, email = newUser.email;
                         activationUrl = (0, activationUrlBuilder_1.default)({ id: id, activationCode: activationCode });
                         return [4 /*yield*/, emailBullService_1.default.emailQueue.add({ email: email, username: username, activationUrl: activationUrl })];

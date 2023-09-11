@@ -49,11 +49,14 @@ var UserModel = /** @class */ (function () {
             var user;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.model.findOne({
-                            where: { email: email }
-                        })];
+                    case 0:
+                        console.log('get by email', email);
+                        return [4 /*yield*/, this.model.findOne({
+                                where: { email: email }
+                            })];
                     case 1:
                         user = _a.sent();
+                        console.log(user);
                         return [2 /*return*/, !user ? null : user];
                 }
             });
@@ -79,7 +82,9 @@ var UserModel = /** @class */ (function () {
             var newUser;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.model.create(userPayload)];
+                    case 0:
+                        console.log('aqui no create');
+                        return [4 /*yield*/, this.model.create(userPayload)];
                     case 1:
                         newUser = _a.sent();
                         return [2 /*return*/, newUser];

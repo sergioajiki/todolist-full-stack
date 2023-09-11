@@ -15,11 +15,17 @@ export default class UserService {
   constructor(
     private userModel: IUserModel = new UserModel(),
     private bcryptUtils = new BcryptUtils(),
-  ) { }
+  ) {}
 
   public async createUser(userPayload: IUserPayload): Promise<ServiceResponse<string>> {
+    // console.log('aqui antes do get');
     const isEmail = await this.userModel.getUserByEmail(userPayload.email);
+    console.log('depois do get');
+    
     if (isEmail) return { status: 'CONFLICT', data: { message: 'Email is already registered' } }
+    console.log('is email', isEmail);
+    
+    
     const payload = {
       username: userPayload.username,
       email: userPayload.email,
@@ -27,7 +33,12 @@ export default class UserService {
       activationCode: 'colocar activation code',
       status: 0,
     }
+
+      console.log('payload', payload);
+      
     const newUser = await this.userModel.createUser(payload);
+    console.log('aqui o newUser', newUser);
+    
     const { id, username, activationCode, email } = newUser;
     const activationUrl = buildActivationUrl( { id, activationCode } );
     await emailBullService.emailQueue.add({ email, username, activationUrl})
