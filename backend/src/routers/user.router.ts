@@ -6,18 +6,25 @@ const userController = new UserController();
 const router = Router();
 
 router.post(
-  '/login/register',
+  '/user/register',
   ValidationUser.validateCreateUserFields,
   ValidationUser.validateEmailFormat,
   ValidationUser.validatePasswordFormat,
-  (req: Request, res: Response) => userController.createUser(req,res)
+  (req: Request, res: Response) => userController.createUser(req, res)
 )
 
 router.post(
   '/login',
   ValidationUser.validateLoginFields,
   ValidationUser.validateEmailFormat,
-  (req: Request, res: Response) => userController.login(req,res)
+  (req: Request, res: Response) => userController.login(req, res)
+)
+
+router.patch(
+  '/user/update/:id',
+  ValidationUser.validateCreateUserFields,
+  ValidationUser.validateEmailFormat,
+  (req: Request, res: Response) => userController.updateUserById(req, res)
 )
 
 router.get(

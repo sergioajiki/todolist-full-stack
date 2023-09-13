@@ -24,5 +24,11 @@ export default class UserController {
     const response = await this.userService.login(loginInfo);
     return res.status(maptStatusHTTP(response.status)).json(response.data)
   }
-  
+
+  public async updateUserById(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
+    const payload = req.body;
+    const response = await this.userService.updateUserById(+id, payload);
+    return res.status(maptStatusHTTP(response.status)).json(response.data)
+  }
 }

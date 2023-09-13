@@ -87,4 +87,16 @@ export default class UserService {
     const token = JwtUtils.sign(payload)
     return { status: 'SUCCESSFUL', data: { token } };
   }
+
+  public async updateUserById(id: number, userPayload: IUserPayload)
+  : Promise<ServiceResponse<IUser | number>> {
+    const isUser = await this.userModel.getUserById(+id);
+    if (!isUser) {
+      return { status: 'NOT_FOUND', data: { message: 'User not found' }}
+    }
+    await this.userModel.updateUserById(+id, userPayload);
+
+    return { status: 'CREATE', data: { message: 'User updated'}}
+    
+  }
 }
