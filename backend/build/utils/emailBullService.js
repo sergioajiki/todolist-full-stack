@@ -18,11 +18,15 @@ const emailQueue = new bull_1.default('emailNotifications', {
     redis: {
         host: 'redis',
         port: 6379,
+        maxRetriesPerRequest: 5,
     },
 });
-emailQueue.process((job) => __awaiter(void 0, void 0, void 0, function* () {
+emailQueue.process((job, done) => __awaiter(void 0, void 0, void 0, function* () {
     const { data } = job;
+    console.log('2', data);
     yield nodemailerUtils_1.default.sendEmail(data);
+    done();
+    done(new Error('error email not sent'));
 }));
 exports.default = {
     emailQueue,

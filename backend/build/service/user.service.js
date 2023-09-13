@@ -14,9 +14,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const user_model_1 = __importDefault(require("../model/user.model"));
 const bcryptUtils_1 = __importDefault(require("../utils/bcryptUtils"));
-const activationUrlBuilder_1 = __importDefault(require("../utils/activationUrlBuilder"));
-const emailBullService_1 = __importDefault(require("../utils/emailBullService"));
+// import buildActivationUrl from '../utils/activationUrlBuilder';
+// import emailBullService from '../utils/emailBullService';
 const jwUtils_1 = __importDefault(require("../utils/jwUtils"));
+const activationCodeGenerator_1 = __importDefault(require("../utils/activationCodeGenerator"));
 class UserService {
     constructor(userModel = new user_model_1.default(), bcryptUtils = new bcryptUtils_1.default()) {
         this.userModel = userModel;
@@ -31,15 +32,20 @@ class UserService {
                 username: userPayload.username,
                 email: userPayload.email,
                 password: this.bcryptUtils.hashPassword(userPayload.password),
-                activationCode: 'colocar activation code',
+                activationCode: activationCodeGenerator_1.default.generateActivationCode(),
                 status: 0,
             };
-            const newUser = yield this.userModel.createUser(payload);
-            const { id, username, activationCode, email } = newUser;
-            const activationUrl = (0, activationUrlBuilder_1.default)({ id, activationCode });
-            console.log(activationUrl);
-            const responseEmail = yield emailBullService_1.default.emailQueue.add({ email, username, activationUrl });
-            console.log('responsee', responseEmail);
+            yield this.userModel.createUser(payload);
+            // const newUser = await this.userModel.createUser(payload);
+            // const { id, username, activationCode, email } = newUser;
+            // const activationUrl = buildActivationUrl( { id, activationCode } );
+            // try {
+            //   await emailBullService.emailQueue.add({email, username, activationUrl})
+            //   console.log(`E-mail enviado para: ${username}`);
+            // } catch (error) {
+            //   console.error(`Erro ao enviar o email para ${ username}`)
+            //   throw error;
+            // }
             return {
                 status: 'CREATE',
                 data: { message: 'Usuário foi cadastrado! Verifique seu email para ativar sua conta' }

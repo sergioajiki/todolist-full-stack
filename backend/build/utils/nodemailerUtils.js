@@ -29,11 +29,11 @@ const sendEmail = ({ email, username, activationUrl }) => __awaiter(void 0, void
         to: email,
         subject: 'email de teste',
         html: `<h1>Bem-vindo ${username}, clique no link para ativar o cadastro</h1><br>
-      <h4>
-      <a href="${activationUrl}" title="link para ativação">
-      <h4>Clique aqui para ativação da conta</h4>
-      </a>
-      </h4>`
+        <h4>
+        <a href="${activationUrl}" title="link para ativação">
+        <h4>Clique aqui para ativação da conta</h4>
+        </a>
+        </h4>`
     };
     const emailSent = yield transport.sendMail(emailInfo);
     console.log('email foi enviado para', emailSent.accepted[0]);

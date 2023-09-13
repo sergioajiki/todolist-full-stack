@@ -6,9 +6,10 @@ import { ILogin } from '../interfaces/ILogin';
 import { Token } from '../interfaces/Token';
 import UserModel from '../model/user.model';
 import BcryptUtils from '../utils/bcryptUtils';
-import buildActivationUrl from '../utils/activationUrlBuilder';
-import emailBullService from '../utils/emailBullService';
+// import buildActivationUrl from '../utils/activationUrlBuilder';
+// import emailBullService from '../utils/emailBullService';
 import JwtUtils from '../utils/jwUtils';
+import activationCodeGenerator from '../utils/activationCodeGenerator';
 
 
 export default class UserService {
@@ -24,19 +25,21 @@ export default class UserService {
       username: userPayload.username,
       email: userPayload.email,
       password: this.bcryptUtils.hashPassword(userPayload.password),
-      activationCode: 'colocar activation code',
+      activationCode: activationCodeGenerator.generateActivationCode(),
       status: 0,
     }
-
-    const newUser = await this.userModel.createUser(payload);
-    const { id, username, activationCode, email } = newUser;
-    const activationUrl = buildActivationUrl( { id, activationCode } );
-    console.log(activationUrl);
-    
-    const responseEmail = await emailBullService.emailQueue.add({ email, username, activationUrl});
-    console.log('responsee', responseEmail);
-    
-    return {
+    await this.userModel.createUser(payload);
+    // const newUser = await this.userModel.createUser(payload);
+    // const { id, username, activationCode, email } = newUser;
+    // const activationUrl = buildActivationUrl( { id, activationCode } );
+    // try {
+    //   await emailBullService.emailQueue.add({email, username, activationUrl})
+    //   console.log(`E-mail enviado para: ${username}`);
+    // } catch (error) {
+    //   console.error(`Erro ao enviar o email para ${ username}`)
+    //   throw error;
+    // }
+        return {
       status: 'CREATE',
       data: { message: 'Usuário foi cadastrado! Verifique seu email para ativar sua conta' }
     }
