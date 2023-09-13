@@ -79,9 +79,9 @@ export default class UserService {
     if (!isValidPassword) {
       return { status: 'UNAUTHORIZED', data: { message: 'Invalid email or password' } };
     }
-    if (userInfo.status === 0) {
-      return { status: 'UNAUTHORIZED', data: { message: 'Verifique o email para ativar a conta' } };
-    }
+    // if (userInfo.status === 0) {
+    //   return { status: 'UNAUTHORIZED', data: { message: 'Verifique o email para ativar a conta' } };
+    // }
     
     const payload = { id: userInfo.id, email: userInfo.email };
     const token = JwtUtils.sign(payload)

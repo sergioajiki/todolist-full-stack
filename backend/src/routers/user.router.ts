@@ -8,9 +8,16 @@ const router = Router();
 router.post(
   '/login/register',
   ValidationUser.validateCreateUserFields,
-  ValidationUser.ValidateEmailFormat,
-  ValidationUser.ValidatePasswordFormat,
+  ValidationUser.validateEmailFormat,
+  ValidationUser.validatePasswordFormat,
   (req: Request, res: Response) => userController.createUser(req,res)
+)
+
+router.post(
+  '/login',
+  ValidationUser.validateLoginFields,
+  ValidationUser.validateEmailFormat,
+  (req: Request, res: Response) => userController.login(req,res)
 )
 
 router.get(
